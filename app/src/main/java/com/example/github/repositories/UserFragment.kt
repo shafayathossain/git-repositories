@@ -11,9 +11,11 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.repositories.data.OwnerDTO
+import com.example.github.repositories.data.RepositoryDTO
 import com.squareup.picasso.Picasso
 
-class UserFragment(private val user: OwnerDTO) : Fragment() {
+class UserFragment(private val user: OwnerDTO) : Fragment(),
+    RepositoryAdapter.RepositoryAdapterCallback {
 
     private val viewModel = UserViewModel()
 
@@ -45,8 +47,16 @@ class UserFragment(private val user: OwnerDTO) : Fragment() {
             viewModel.fetchRepositories(it.repos_url!!)
         }
         viewModel.repositories.observeForever {
-            list!!.adapter = RepositoryAdapter(it.toMutableList(), requireActivity())
+            list!!.adapter = RepositoryAdapter(it.toMutableList(), this)
         }
         return view
+    }
+
+    override fun onItemClick(item: RepositoryDTO) {
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.replace(android.R.id.content, DetailFragment(item))
+            ?.addToBackStack("detail")
+            ?.commit()
     }
 }

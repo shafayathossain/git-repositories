@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO
 
 class RepositoryAdapter(
     val list: List<RepositoryDTO>,
-    val activity: FragmentActivity
+    val callback: RepositoryAdapterCallback
 ) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = list.size
@@ -48,12 +47,12 @@ class RepositoryAdapter(
                     R.drawable.baseline_bookmark_border_black_24
             )
             container.setOnClickListener {
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .add(android.R.id.content, DetailFragment(item))
-                    .addToBackStack("detail")
-                    .commit()
+                callback.onItemClick(item)
             }
         }
+    }
+
+    interface RepositoryAdapterCallback {
+        fun onItemClick(item: RepositoryDTO)
     }
 }
