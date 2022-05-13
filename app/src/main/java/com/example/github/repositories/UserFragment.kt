@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.OwnerDTO
@@ -19,7 +20,7 @@ class UserFragment : BaseFragment(),
         const val USER_DATA_TAG = "user"
     }
 
-    private val viewModel = UserViewModel()
+    private lateinit var viewModel: UserViewModel
 
     private var title: TextView? = null
     private var image: ImageView? = null
@@ -30,6 +31,11 @@ class UserFragment : BaseFragment(),
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_user
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, UserViewModel.Factory()).get(UserViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

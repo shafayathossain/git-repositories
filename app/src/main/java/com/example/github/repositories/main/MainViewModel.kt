@@ -3,15 +3,18 @@ package com.example.github.repositories.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.github.repositories.data.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainViewModel : ViewModel() {
 
     class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel() as T
         }
     }
@@ -25,24 +28,18 @@ class MainViewModel : ViewModel() {
     val repositories = MutableLiveData<List<RepositoryDTO>>()
 
     fun fetchItems() {
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             delay(1_000) // This is to simulate network latency, please don't remove!
-            var response: Response?
-            withContext(Dispatchers.IO) {
-                response = service.searchRepositories(QUERY, SORT, ORDER).execute().body()
-            }
-            repositories.value = response?.items
+            val response = service.searchRepositories(QUERY, SORT, ORDER).execute().body()
+            repositories.postValue(response?.items)
         }
     }
 
     fun refresh() {
-        GlobalScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             delay(1_000) // This is to simulate network latency, please don't remove!
-            var response: Response?
-            withContext(Dispatchers.IO) {
-                response = service.searchRepositories(QUERY, SORT, ORDER).execute().body()
-            }
-            repositories.value = response?.items
+            val response = service.searchRepositories(QUERY, SORT, ORDER).execute().body()
+            repositories.postValue(response?.items)
         }
     }
 }
