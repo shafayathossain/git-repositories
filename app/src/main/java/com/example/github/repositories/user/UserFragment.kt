@@ -1,4 +1,4 @@
-package com.example.github.repositories
+package com.example.github.repositories.user
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.R
+import com.example.github.repositories.RepositoryAdapter
 import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.OwnerDTO
 import com.example.github.repositories.data.RepositoryDTO
