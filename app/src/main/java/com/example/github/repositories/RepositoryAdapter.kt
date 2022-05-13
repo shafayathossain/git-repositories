@@ -44,7 +44,7 @@ class RepositoryAdapter(
                     .plus("...") else item.description
             authorTxt.text = item.owner!!.login
             imageVw.setImageResource(
-                if (LocalDataStore.instance.getBookmarks().contains(item))
+                if (LocalDataStore.instance.getBookmarks().contains(item.id))
                     R.drawable.baseline_bookmark_black_24
                 else
                     R.drawable.baseline_bookmark_border_black_24

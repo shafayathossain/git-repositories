@@ -46,7 +46,7 @@ class DetailFragment : BaseFragment() {
         url?.text = repository?.html_url
 
         image?.setImageResource(
-            if (LocalDataStore.instance.getBookmarks().contains(repository))
+            if (LocalDataStore.instance.getBookmarks().contains(repository?.id))
                 R.drawable.baseline_bookmark_black_24
             else
                 R.drawable.baseline_bookmark_border_black_24
@@ -72,7 +72,7 @@ class DetailFragment : BaseFragment() {
 
     private fun toggleBookmarkState() {
         repository?.let {
-            val isBookmarked = LocalDataStore.instance.getBookmarks().contains(it)
+            val isBookmarked = LocalDataStore.instance.getBookmarks().contains(it.id)
             LocalDataStore.instance.bookmarkRepo(it, !isBookmarked)
             image!!.setImageResource(if (!isBookmarked) R.drawable.baseline_bookmark_black_24 else R.drawable.baseline_bookmark_border_black_24)
         }
