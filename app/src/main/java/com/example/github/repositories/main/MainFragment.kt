@@ -47,7 +47,7 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
 
     override fun onItemClick(item: RepositoryDTO) {
         val bundle = Bundle()
-        bundle.putParcelable(DetailFragment.DETAIL_TAG, item)
+        bundle.putParcelable(DetailFragment.DETAIL_DATA_TAG, item)
         val fragment = DetailFragment()
         fragment.arguments = bundle
 

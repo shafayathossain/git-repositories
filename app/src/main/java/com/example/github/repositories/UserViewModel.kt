@@ -21,12 +21,14 @@ class UserViewModel : ViewModel() {
     val user = MutableLiveData<UserDTO>()
     val repositories = MutableLiveData<List<RepositoryDTO>>()
 
-    fun fetchUser(username: String) {
+    fun fetchUser(username: String?) {
         // FIXME Use the proper scope
         GlobalScope.launch(Dispatchers.IO) {
-            delay(1_000) // This is to simulate network latency, please don't remove!
-            val response = service.getUser(username).execute()
-            user.postValue(response.body()!!)
+            username?.let {
+                delay(1_000) // This is to simulate network latency, please don't remove!
+                val response = service.getUser(username).execute()
+                user.postValue(response.body()!!)
+            }
         }
     }
 
