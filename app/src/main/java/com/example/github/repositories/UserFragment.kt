@@ -1,20 +1,18 @@
 package com.example.github.repositories
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.OwnerDTO
 import com.example.github.repositories.data.RepositoryDTO
+import com.example.github.repositories.detail.DetailFragment
 import com.squareup.picasso.Picasso
 
-class UserFragment(private val user: OwnerDTO) : Fragment(),
+class UserFragment(private val user: OwnerDTO) : BaseFragment(),
     RepositoryAdapter.RepositoryAdapterCallback {
 
     private val viewModel = UserViewModel()
@@ -25,13 +23,13 @@ class UserFragment(private val user: OwnerDTO) : Fragment(),
     private var url: TextView? = null
     private var list: RecyclerView? = null
 
-    @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_user, container, false)
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_user
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         title = view.findViewById(R.id.title)
         image = view.findViewById(R.id.image)
         detail = view.findViewById(R.id.detail)
@@ -49,14 +47,15 @@ class UserFragment(private val user: OwnerDTO) : Fragment(),
         viewModel.repositories.observeForever {
             list!!.adapter = RepositoryAdapter(it.toMutableList(), this)
         }
-        return view
+
     }
 
     override fun onItemClick(item: RepositoryDTO) {
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.replace(android.R.id.content, DetailFragment(item))
-            ?.addToBackStack("detail")
-            ?.commit()
+        val bundle = Bundle()
+        bundle.putParcelable(DetailFragment.DETAIL_TAG, item)
+        val fragment = DetailFragment()
+        fragment.arguments = bundle
+
+        replaceFragment(fragment)
     }
 }
