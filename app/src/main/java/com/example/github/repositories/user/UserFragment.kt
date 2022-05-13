@@ -55,7 +55,11 @@ class UserFragment : BaseFragment(),
 
         viewModel.fetchUser(user?.login)
         viewModel.user.observeForever {
-            detail?.text = "Twitter handle: " + it.twitter_username
+            if(it.twitter_username.isNullOrEmpty()) {
+                detail?.visibility = View.INVISIBLE
+            } else {
+                detail?.text = "Twitter handle: " + it.twitter_username
+            }
             viewModel.fetchRepositories(it.repos_url!!)
         }
         viewModel.repositories.observeForever {
