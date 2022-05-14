@@ -7,7 +7,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface GitHubEndpoints {
-    @GET("search/repositoriess")
+    @GET("search/repositories")
     suspend fun searchRepositories(
         @Query("q") q: String,
         @Query("sort") sort: String,
