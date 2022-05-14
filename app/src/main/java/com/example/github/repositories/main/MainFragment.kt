@@ -39,6 +39,9 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
         recyclerview = view.findViewById(R.id.news_list)
         recyclerview?.layoutManager = LinearLayoutManager(context)
 
+        viewModel.message.observe(viewLifecycleOwner) {
+            showMessage(it)
+        }
         viewModel.repositories.observeForever {
             val adapter = RepositoryAdapter(it.take(20)?.toMutableList(), this)
             recyclerview?.adapter = adapter

@@ -7,12 +7,12 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface GitHubEndpoints {
-    @GET("search/repositories")
-    fun searchRepositories(
+    @GET("search/repositoriess")
+    suspend fun searchRepositories(
         @Query("q") q: String,
         @Query("sort") sort: String,
         @Query("order") order: String
-    ): Call<Response>
+    ): Response
 
     @GET("users/{username}")
     fun getUser(
