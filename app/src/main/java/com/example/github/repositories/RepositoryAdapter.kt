@@ -29,7 +29,7 @@ class RepositoryAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val container: View = itemView.findViewById(R.id.news_container)
         val titleTxt: TextView = itemView.findViewById(R.id.title)
-        val imageVw: ImageView = itemView.findViewById(R.id.image)
+        val imageVw: ImageView = itemView.findViewById(R.id.iv_bookmark)
         val descriptionTxt: TextView = itemView.findViewById(R.id.description)
         val authorTxt: TextView = itemView.findViewById(R.id.author)
 
