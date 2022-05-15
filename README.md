@@ -29,24 +29,39 @@ The app is consisted of a main screen where repositories are shown and upon clic
 You can contribute to this project by reading the code and poiting out/fixing the potential issues in the code itself. You can also implement a new feature or fix a bug or improve the test coverage on the project.
 ### Features
 There are features missing in the project:
-- User should see the loading indicator while the data is loading.
-- If network is not available or there is an error user should see a proper error screen with a retry button.
+- :white_check_mark: User should see the loading indicator while the data is loading.
+- :white_check_mark: If network is not available or there is an error user should see a proper error screen with a retry button.
 
 ### Bugs
 There are bugs that need to be fixed in the project:
-- After bookmarking a repository, coming back to previous page the list is not updated.
-- Identify and fix potential memory leaks in the project
+- :white_check_mark: After bookmarking a repository, coming back to previous page the list is not updated.
+- :white_check_mark: Identify and fix potential memory leaks in the project
 
 ### Testing
 We want to test different components to make sure they are working properly:
-- Explain what should be tested in each components
+- What should be tested in each components
+  - Check text showed correctly
+  - Check text alignment is correct
+  - Check click functionality works as expected
+  - Check loading screen works as expected while data is loading
+  - Check error message showed properly
+  - Check button click functionality works as expected
+  - Check correct drawable loaded to an imageview
+  - Check focus functionality works correctly for edit text
+  - Check navigation between screens works as expected
+  - Check view visibility is correct
+  - Check view is placed correctly
+  - Scroll functionality works as expected
+  - Items loaded properly in list
+  - Check if correct color showed in view
+
 - Add test cases to confirm the followings requirements (Testing method is up to the developer):
   - :white_check_mark: Title is shown properly in list
-  - Description is truncated properly in the list
-  - Navigation is handled properly between screens
-  - All the necessary information are fetched properly in the user screen
-  - Repository is marked as bookmark properly
-  - List is updated after changing the bookmark status of a repository
+  - :white_check_mark: Description is truncated properly in the list
+  - :white_check_mark: Navigation is handled properly between screens
+  - :white_check_mark: All the necessary information are fetched properly in the user screen
+  - :white_check_mark: Repository is marked as bookmark properly
+  - :white_check_mark: List is updated after changing the bookmark status of a repository
 
 ## How to contribute
 1. Clone (not fork) this repository
