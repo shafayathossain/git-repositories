@@ -34,7 +34,7 @@ class DetailFragment : BaseFragment() {
         repository = arguments?.getParcelable(DETAIL_DATA_TAG)
 
         title = view.findViewById(R.id.title)
-        image = view.findViewById(R.id.image)
+        image = view.findViewById(R.id.iv_bookmark)
         detail = view.findViewById(R.id.detail)
         description = view.findViewById(R.id.description)
         url = view.findViewById(R.id.url)
