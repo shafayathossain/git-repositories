@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment : Fragment() {
 
@@ -35,5 +36,14 @@ abstract class BaseFragment : Fragment() {
 
     fun showMessage(message: String?) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun showMessageWithActionButton(it: String?, action: () -> Unit) {
+        val snackbar = Snackbar
+            .make(requireView(), it ?: "", 7000)
+            .setAction("RETRY") {
+                action.invoke()
+            }
+        snackbar.show()
     }
 }

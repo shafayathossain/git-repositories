@@ -20,6 +20,7 @@ class UserViewModel : BaseViewModel() {
     fun fetchUser(username: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             username?.let {
+                showLoader.postValue(true)
                 delay(1_000) // This is to simulate network latency, please don't remove!
                 executeRetrofitCall(
                     ioDispatcher = Dispatchers.IO,
@@ -35,7 +36,6 @@ class UserViewModel : BaseViewModel() {
 
     fun fetchRepositories(reposUrl: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            showLoader.postValue(true)
             delay(1_000) // This is to simulate network latency, please don't remove!
             executeRetrofitCall(
                 ioDispatcher = Dispatchers.IO,
@@ -50,6 +50,7 @@ class UserViewModel : BaseViewModel() {
     }
 
     private fun handleError(failure: Failure) {
+        showLoader.postValue(false)
         message.postValue(failure.message)
     }
 

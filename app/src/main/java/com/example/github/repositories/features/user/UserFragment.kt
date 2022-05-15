@@ -76,9 +76,11 @@ class UserFragment : BaseFragment(),
 
     private fun setObserver() {
         viewModel.message.observe(viewLifecycleOwner) {
-            showMessage(it)
+            showMessageWithActionButton(it) {
+                viewModel.fetchUser(user?.login)
+            }
         }
-        viewModel.showLoader?.observe(viewLifecycleOwner) {
+        viewModel.showLoader.observe(viewLifecycleOwner) {
             if (it == true) {
                 loader?.visibility = View.VISIBLE
             } else {

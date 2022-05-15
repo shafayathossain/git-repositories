@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.github.repositories.R
-import com.example.github.repositories.features.RepositoryAdapter
 import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.model.RepositoryDTO
+import com.example.github.repositories.features.RepositoryAdapter
 import com.example.github.repositories.features.detail.DetailFragment
+
 
 class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback {
 
@@ -44,6 +45,7 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
     private fun setViewObjects(view: View) {
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
         swipeRefresh?.setOnRefreshListener { viewModel.refresh() }
+        swipeRefresh?.isRefreshing = false
 
         recyclerview = view.findViewById(R.id.news_list)
         recyclerview?.layoutManager = LinearLayoutManager(context)
@@ -53,7 +55,9 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
 
     private fun setObservers() {
         viewModel.message.observe(viewLifecycleOwner) {
-            showMessage(it)
+            showMessageWithActionButton(it) {
+                viewModel.fetchItems()
+            }
         }
         viewModel.showLoader.observe(viewLifecycleOwner) {
             if (it == true) {
