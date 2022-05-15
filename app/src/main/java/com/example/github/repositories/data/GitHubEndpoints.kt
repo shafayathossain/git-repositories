@@ -20,7 +20,7 @@ interface GitHubEndpoints {
     ): Call<UserDTO>
 
     @GET
-    fun getUserRepositories(
+    suspend fun getUserRepositories(
         @Url userRepo: String
-    ): Call<MutableList<RepositoryDTO>>
+    ): List<RepositoryDTO>
 }

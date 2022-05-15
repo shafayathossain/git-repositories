@@ -3,6 +3,7 @@ package com.example.github.repositories.user
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,7 @@ class UserFragment : BaseFragment(),
     private var detail: TextView? = null
     private var url: TextView? = null
     private var list: RecyclerView? = null
+    private var loader: ProgressBar? = null
     private var user: OwnerDTO? = null
 
     var viewModelProviderFactor: ViewModelProvider.Factory = UserViewModel.Factory()
@@ -50,10 +52,21 @@ class UserFragment : BaseFragment(),
         detail = view.findViewById(R.id.detail)
         url = view.findViewById(R.id.url)
         list = view.findViewById(R.id.list)
+        loader = view.findViewById(R.id.loader)
 
         title?.text = user?.login
         Picasso.get().load(user?.avatar_url?.toUri()).into(image)
         viewModel.fetchUser(user?.login)
+        viewModel.message.observe(viewLifecycleOwner) {
+            showMessage(it)
+        }
+        viewModel.showLoader.observe(viewLifecycleOwner) {
+            if (it == true) {
+                loader?.visibility = View.VISIBLE
+            } else {
+                loader?.visibility = View.GONE
+            }
+        }
         viewModel.user.observeForever {
             if(it.twitter_username.isNullOrEmpty()) {
                 detail?.visibility = View.INVISIBLE

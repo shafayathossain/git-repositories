@@ -53,20 +53,6 @@ class MainViewModel : BaseViewModel() {
         repositories.postValue(itemsFoUi)
     }
 
-    fun getRepositoriesForUi(items: List<RepositoryDTO>): List<RepositoryDTO> {
-        val mItems = populateRepositoryList(items)
-        for (i in mItems.indices) {
-            val item = mItems[i]
-            item.name_in_list = getItemNameForList(i, item)
-        }
-        return mItems
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getItemNameForList(position: Int, item: RepositoryDTO): String {
-        return "#" + (position + 1) + ": " + item.full_name?.uppercase()
-    }
-
     class Factory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel() as T

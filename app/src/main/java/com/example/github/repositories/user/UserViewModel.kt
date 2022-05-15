@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.github.repositories.base.BaseViewModel
-import com.example.github.repositories.data.GITHUB_URL
-import com.example.github.repositories.data.GitHubEndpoints
-import com.example.github.repositories.data.RepositoryDTO
-import com.example.github.repositories.data.UserDTO
+import com.example.github.repositories.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,9 +42,26 @@ class UserViewModel : BaseViewModel() {
 
     fun fetchRepositories(reposUrl: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            showLoader.postValue(true)
             delay(1_000) // This is to simulate network latency, please don't remove!
-            val response = service.getUserRepositories(reposUrl).execute()
-            repositories.postValue(populateRepositoryList(response.body()))
+            executeRetrofitCall(
+                ioDispatcher = Dispatchers.IO,
+                retrofitCall = {
+                    service.getUserRepositories(reposUrl)
+                }
+            ).let { response ->
+                showLoader.postValue(false)
+                response.mapSuccess { responseItems -> responseItems }
+            }.either(::handleError, ::setRepositories)
         }
+    }
+
+    private fun handleError(failure: Failure) {
+        message.postValue(failure.message)
+    }
+
+    fun setRepositories(items: List<RepositoryDTO>) {
+        val itemsFoUi = getRepositoriesForUi(items)
+        repositories.postValue(itemsFoUi)
     }
 }
