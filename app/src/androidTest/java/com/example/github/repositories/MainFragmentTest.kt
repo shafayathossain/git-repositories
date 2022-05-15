@@ -1,12 +1,10 @@
 package com.example.github.repositories
 
-import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -14,8 +12,9 @@ import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO
-import com.example.github.repositories.main.MainFragment
-import com.example.github.repositories.main.MainViewModel
+import com.example.github.repositories.features.MainActivity
+import com.example.github.repositories.features.main.MainFragment
+import com.example.github.repositories.features.main.MainViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

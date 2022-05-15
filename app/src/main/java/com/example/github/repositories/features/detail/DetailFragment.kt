@@ -1,11 +1,11 @@
-package com.example.github.repositories.detail
+package com.example.github.repositories.features.detail
 
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.github.repositories.R
-import com.example.github.repositories.user.UserFragment
+import com.example.github.repositories.features.user.UserFragment
 import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO

@@ -1,4 +1,4 @@
-package com.example.github.repositories
+package com.example.github.repositories.features
 
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.github.repositories.base.BaseFragmentCommunicator
 import com.example.github.repositories.data.LocalDataStore
-import com.example.github.repositories.main.MainFragment
+import com.example.github.repositories.features.main.MainFragment
 
 class MainActivity : AppCompatActivity(), BaseFragmentCommunicator {
 

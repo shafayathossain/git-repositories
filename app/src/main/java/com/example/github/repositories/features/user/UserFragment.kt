@@ -1,4 +1,4 @@
-package com.example.github.repositories.user
+package com.example.github.repositories.features.user
 
 import android.os.Bundle
 import android.view.View
@@ -9,11 +9,11 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.repositories.R
-import com.example.github.repositories.RepositoryAdapter
+import com.example.github.repositories.features.RepositoryAdapter
 import com.example.github.repositories.base.BaseFragment
 import com.example.github.repositories.data.OwnerDTO
 import com.example.github.repositories.data.RepositoryDTO
-import com.example.github.repositories.detail.DetailFragment
+import com.example.github.repositories.features.detail.DetailFragment
 import com.squareup.picasso.Picasso
 
 class UserFragment : BaseFragment(),

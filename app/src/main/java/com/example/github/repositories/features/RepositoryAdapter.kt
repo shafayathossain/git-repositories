@@ -1,4 +1,4 @@
-package com.example.github.repositories
+package com.example.github.repositories.features
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.R
 import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO
 

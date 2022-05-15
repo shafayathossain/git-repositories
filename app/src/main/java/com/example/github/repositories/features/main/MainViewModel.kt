@@ -1,4 +1,4 @@
-package com.example.github.repositories.main
+package com.example.github.repositories.features.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

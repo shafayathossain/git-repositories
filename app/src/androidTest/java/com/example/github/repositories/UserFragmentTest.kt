@@ -2,30 +2,22 @@ package com.example.github.repositories
 
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import androidx.test.annotation.UiThreadTest
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.LargeTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import com.example.github.repositories.RecyclerViewItemCountAssertion.Companion.withItemCount
-import com.example.github.repositories.main.MainFragment
-import com.example.github.repositories.main.MainViewModel
-import com.example.github.repositories.user.UserFragment
-import com.example.github.repositories.user.UserViewModel
+import com.example.github.repositories.features.MainActivity
+import com.example.github.repositories.features.user.UserFragment
+import com.example.github.repositories.features.user.UserViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineContext
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
-import org.mockito.Mockito.spy
 
 @LargeTest
 @RunWith(AndroidJUnit4ClassRunner::class)
