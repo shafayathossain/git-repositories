@@ -2,6 +2,7 @@ package com.example.github.repositories.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,14 +15,18 @@ import com.example.github.repositories.detail.DetailFragment
 
 class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback {
 
-    private lateinit var viewModel: MainViewModel
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    lateinit var viewModel: MainViewModel
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var viewModelProvider: ViewModelProvider.Factory = MainViewModel.Factory()
 
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var recyclerview: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, MainViewModel.Factory()).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelProvider).get(MainViewModel::class.java)
     }
 
     override fun getLayoutId(): Int {

@@ -1,5 +1,6 @@
 package com.example.github.repositories.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@VisibleForTesting
 class MainViewModel : ViewModel() {
 
     private val retrofit = Retrofit.Builder()
@@ -22,12 +24,6 @@ class MainViewModel : ViewModel() {
 
     val repositories = MutableLiveData<List<RepositoryDTO>>()
     val message = SingleLiveEvent<String>()
-
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel() as T
-        }
-    }
 
     fun fetchItems() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -54,5 +50,11 @@ class MainViewModel : ViewModel() {
 
     private fun handleSuccess(response: Response) {
         repositories.postValue(response?.items)
+    }
+
+    class Factory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return MainViewModel() as T
+        }
     }
 }
