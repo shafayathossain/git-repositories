@@ -51,6 +51,7 @@ class TestBaseViewModel {
         val sortedList = repositoryList
             .sortedBy { it.stargazers_count }
             .subList(0, min(repositoryList.size, 20))
+            .reversed()
         val populatedList = viewModel.populateRepositoryList(repositoryList)
         assertEquals(populatedList, sortedList)
         assert(populatedList.size <= MAX_ITEM_COUNT_IN_REPOSITORY_LIST)

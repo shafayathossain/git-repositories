@@ -27,6 +27,7 @@ open class BaseViewModel: ViewModel() {
     fun populateRepositoryList(repositories: List<RepositoryDTO>?): List<RepositoryDTO> {
         return repositories
             ?.sortedBy { it.stargazers_count }
+            ?.reversed()
             ?.take(MAX_ITEM_COUNT_IN_REPOSITORY_LIST) ?: listOf()
     }
 }
