@@ -16,19 +16,17 @@ import com.example.github.repositories.detail.DetailFragment
 
 class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback {
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    lateinit var viewModel: MainViewModel
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    var viewModelProvider: ViewModelProvider.Factory = MainViewModel.Factory()
-
+    private lateinit var viewModel: MainViewModel
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var recyclerview: RecyclerView? = null
     private var loader: ProgressBar? = null
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var viewModelProvider: ViewModelProvider.Factory = MainViewModel.Factory()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelProvider).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelProvider)[MainViewModel::class.java]
     }
 
     override fun getLayoutId(): Int {
@@ -38,8 +36,12 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setViewObjects(view)
+        setObservers()
         viewModel.fetchItems()
+    }
 
+    private fun setViewObjects(view: View) {
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
         swipeRefresh?.setOnRefreshListener { viewModel.refresh() }
 
@@ -47,8 +49,6 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
         recyclerview?.layoutManager = LinearLayoutManager(context)
 
         loader = view.findViewById(R.id.loader)
-
-        setObservers()
     }
 
     private fun setObservers() {

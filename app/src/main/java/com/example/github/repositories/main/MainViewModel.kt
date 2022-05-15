@@ -1,6 +1,5 @@
 package com.example.github.repositories.main
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +47,7 @@ class MainViewModel : BaseViewModel() {
         message.postValue(failure.message)
     }
 
-    fun setRepositories(response: Response) {
+    private fun setRepositories(response: Response) {
         val itemsFoUi = getRepositoriesForUi(response.items)
         repositories.postValue(itemsFoUi)
     }
