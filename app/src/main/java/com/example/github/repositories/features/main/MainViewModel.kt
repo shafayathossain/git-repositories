@@ -7,22 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.repositories.base.BaseViewModel
 import com.example.github.repositories.data.model.RepositoryDTO
 import com.example.github.repositories.data.model.Response
-import com.example.github.repositories.data.network.*
 import com.example.github.repositories.data.network.exception.Failure
-import com.example.github.repositories.data.network.network_utils.*
+import com.example.github.repositories.data.network.network_utils.executeRetrofitCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainViewModel : BaseViewModel() {
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(GITHUB_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val service: GitHubEndpoints = retrofit.create(GitHubEndpoints::class.java)
     val repositories = MutableLiveData<List<RepositoryDTO>>()
 
     fun fetchItems() {
@@ -32,7 +23,7 @@ class MainViewModel : BaseViewModel() {
             executeRetrofitCall(
                 ioDispatcher = Dispatchers.IO,
                 retrofitCall = {
-                    service.searchRepositories(QUERY, SORT, ORDER)
+                    dataSource.fetchItems()
                 }
             ).let { response ->
                 showLoader.postValue(false)

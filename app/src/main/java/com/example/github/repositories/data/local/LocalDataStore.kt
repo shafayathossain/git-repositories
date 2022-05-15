@@ -22,13 +22,13 @@ class LocalDataStore private constructor() {
         }
     }
 
-    fun bookmarkRepo(repositoryDTO: RepositoryDTO, bookmarked: Boolean) {
+    fun bookmarkRepo(repositoryId: Int, bookmarked: Boolean) {
         val bookmarks = getBookmarks().toMutableSet()
 
         if (bookmarked)
-            bookmarks.add(repositoryDTO.id)
+            bookmarks.add(repositoryId)
         else
-            bookmarks.remove(repositoryDTO.id)
+            bookmarks.remove(repositoryId)
 
         val dataString = Gson().toJson(bookmarks.toList())
         preferences.saveData(SharedPrefUtils.KEY_BOOKMARKS, dataString)

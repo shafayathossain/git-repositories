@@ -1,7 +1,5 @@
 package com.example.github.repositories
 
-
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.espresso.Espresso.onView
@@ -31,7 +29,6 @@ class DetailFragmentTest {
     @Rule
     @JvmField
     var mActivityTestRule = ActivityScenarioRule(MainActivity::class.java)
-    private lateinit var preferences: SharedPreferences
     private val repository = testResponse.items[0]
 
     @Before

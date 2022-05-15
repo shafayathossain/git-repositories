@@ -7,23 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.repositories.base.BaseViewModel
 import com.example.github.repositories.data.model.RepositoryDTO
 import com.example.github.repositories.data.model.UserDTO
-import com.example.github.repositories.data.network.*
 import com.example.github.repositories.data.network.exception.Failure
-import com.example.github.repositories.data.network.network_utils.GITHUB_URL
 import com.example.github.repositories.data.network.network_utils.executeRetrofitCall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class UserViewModel : BaseViewModel() {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(GITHUB_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val service: GitHubEndpoints = retrofit.create(GitHubEndpoints::class.java)
-
     val user = MutableLiveData<UserDTO>()
     val repositories = MutableLiveData<List<RepositoryDTO>>()
 
@@ -34,7 +24,7 @@ class UserViewModel : BaseViewModel() {
                 executeRetrofitCall(
                     ioDispatcher = Dispatchers.IO,
                     retrofitCall = {
-                        service.getUser(username)
+                        dataSource.fetchUser(username)
                     }
                 ).let { response ->
                     response.mapSuccess { responseItems -> responseItems }
@@ -50,7 +40,7 @@ class UserViewModel : BaseViewModel() {
             executeRetrofitCall(
                 ioDispatcher = Dispatchers.IO,
                 retrofitCall = {
-                    service.getUserRepositories(reposUrl)
+                    dataSource.fetchUserRepositories(reposUrl)
                 }
             ).let { response ->
                 showLoader.postValue(false)

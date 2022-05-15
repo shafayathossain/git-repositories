@@ -2,11 +2,14 @@ package com.example.github.repositories.base
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.github.repositories.MAX_ITEM_COUNT_IN_REPOSITORY_LIST
+import com.example.github.repositories.data.GithubDataSource
 import com.example.github.repositories.data.model.RepositoryDTO
 
-open class BaseViewModel: ViewModel() {
+open class BaseViewModel : ViewModel() {
 
+    protected val dataSource = GithubDataSource()
     val message = SingleLiveEvent<String>()
     val showLoader = SingleLiveEvent<Boolean>()
 
@@ -29,5 +32,19 @@ open class BaseViewModel: ViewModel() {
             ?.sortedBy { it.stargazers_count }
             ?.reversed()
             ?.take(MAX_ITEM_COUNT_IN_REPOSITORY_LIST) ?: listOf()
+    }
+
+    fun getIsBookmarked(repositoryId: Int): Boolean {
+        return dataSource.getIsBookmarked(repositoryId)
+    }
+
+    fun toggleBookmark(repositoryId: Int): Boolean {
+        return dataSource.toggleBookmark(repositoryId)
+    }
+
+    class Factory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return BaseViewModel() as T
+        }
     }
 }

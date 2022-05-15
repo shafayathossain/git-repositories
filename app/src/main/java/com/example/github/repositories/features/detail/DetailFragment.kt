@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import com.example.github.repositories.R
-import com.example.github.repositories.features.user.UserFragment
 import com.example.github.repositories.base.BaseFragment
-import com.example.github.repositories.data.local.LocalDataStore
+import com.example.github.repositories.base.BaseViewModel
 import com.example.github.repositories.data.model.RepositoryDTO
+import com.example.github.repositories.features.user.UserFragment
 import com.squareup.picasso.Picasso
 
 class DetailFragment : BaseFragment() {
@@ -23,6 +24,13 @@ class DetailFragment : BaseFragment() {
     private var description: TextView? = null
     private var url: TextView? = null
     private var repository: RepositoryDTO? = null
+    private lateinit var viewModel: BaseViewModel
+    var viewModelFactory: ViewModelProvider.Factory = BaseViewModel.Factory()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, viewModelFactory)[BaseViewModel::class.java]
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_detail
@@ -44,22 +52,24 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun loadDataIntoView() {
-        title?.text = repository?.name
-        detail?.text = getString(
-            R.string.repository_creation_date_text,
-            repository?.owner!!.login,
-            repository?.created_at
-        )
-        Picasso.get().load(repository?.owner!!.avatar_url).into(image)
-        description?.text = repository?.description
-        url?.text = repository?.html_url
+        repository?.let {
+            title?.text = it.name
+            detail?.text = getString(
+                R.string.repository_creation_date_text,
+                it.owner.login,
+                it.created_at
+            )
+            Picasso.get().load(it.owner.avatar_url).into(image)
+            description?.text = it.description
+            url?.text = it.html_url
 
-        image?.setImageResource(
-            if (LocalDataStore.instance.getBookmarks().contains(repository?.id))
-                R.drawable.baseline_bookmark_black_24
-            else
-                R.drawable.baseline_bookmark_border_black_24
-        )
+            image?.setImageResource(
+                if (viewModel.getIsBookmarked(it.id))
+                    R.drawable.baseline_bookmark_black_24
+                else
+                    R.drawable.baseline_bookmark_border_black_24
+            )
+        }
     }
 
     private fun setViewObjects(view: View) {
@@ -83,9 +93,11 @@ class DetailFragment : BaseFragment() {
 
     private fun toggleBookmarkState() {
         repository?.let {
-            val isBookmarked = LocalDataStore.instance.getBookmarks().contains(it.id)
-            LocalDataStore.instance.bookmarkRepo(it, !isBookmarked)
-            image!!.setImageResource(if (!isBookmarked) R.drawable.baseline_bookmark_black_24 else R.drawable.baseline_bookmark_border_black_24)
+            val isBookmarked = viewModel.toggleBookmark(it.id)
+            image?.setImageResource(
+                if (isBookmarked) R.drawable.baseline_bookmark_black_24
+                else R.drawable.baseline_bookmark_border_black_24
+            )
         }
     }
 }
