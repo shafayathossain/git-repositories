@@ -3,7 +3,7 @@ package com.example.github.repositories.base
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import com.example.github.repositories.MAX_ITEM_COUNT_IN_REPOSITORY_LIST
-import com.example.github.repositories.data.RepositoryDTO
+import com.example.github.repositories.data.model.RepositoryDTO
 
 open class BaseViewModel: ViewModel() {
 

@@ -5,7 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.github.repositories.base.BaseViewModel
-import com.example.github.repositories.data.*
+import com.example.github.repositories.data.model.RepositoryDTO
+import com.example.github.repositories.data.model.Response
+import com.example.github.repositories.data.network.*
+import com.example.github.repositories.data.network.exception.Failure
+import com.example.github.repositories.data.network.network_utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

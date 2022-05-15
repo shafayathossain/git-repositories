@@ -7,8 +7,8 @@ import android.widget.TextView
 import com.example.github.repositories.R
 import com.example.github.repositories.features.user.UserFragment
 import com.example.github.repositories.base.BaseFragment
-import com.example.github.repositories.data.LocalDataStore
-import com.example.github.repositories.data.RepositoryDTO
+import com.example.github.repositories.data.local.LocalDataStore
+import com.example.github.repositories.data.model.RepositoryDTO
 import com.squareup.picasso.Picasso
 
 class DetailFragment : BaseFragment() {

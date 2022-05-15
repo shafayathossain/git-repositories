@@ -1,5 +1,7 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network.network_utils
 
+import com.example.github.repositories.data.network.exception.Failure
+import com.example.github.repositories.data.network.exception.parseException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

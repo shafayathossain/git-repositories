@@ -1,4 +1,4 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network.exception
 
 import com.google.gson.Gson
 import retrofit2.HttpException

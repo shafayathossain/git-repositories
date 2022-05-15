@@ -1,6 +1,8 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network
 
-import retrofit2.Call
+import com.example.github.repositories.data.model.RepositoryDTO
+import com.example.github.repositories.data.model.Response
+import com.example.github.repositories.data.model.UserDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

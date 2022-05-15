@@ -1,4 +1,4 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

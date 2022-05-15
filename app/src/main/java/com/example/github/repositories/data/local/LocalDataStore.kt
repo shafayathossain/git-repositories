@@ -1,7 +1,8 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.local
 
 import android.content.Context
 import com.example.github.repositories.base.SharedPrefUtils
+import com.example.github.repositories.data.model.RepositoryDTO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

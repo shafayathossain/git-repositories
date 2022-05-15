@@ -1,6 +1,6 @@
 package com.example.github.repositories
 
-import com.example.github.repositories.data.Response
+import com.example.github.repositories.data.model.Response
 import com.google.gson.Gson
 
 private val testResponseString = "{\n" +

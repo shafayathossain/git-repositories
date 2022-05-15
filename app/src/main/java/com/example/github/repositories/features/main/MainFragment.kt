@@ -11,7 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.github.repositories.R
 import com.example.github.repositories.features.RepositoryAdapter
 import com.example.github.repositories.base.BaseFragment
-import com.example.github.repositories.data.RepositoryDTO
+import com.example.github.repositories.data.model.RepositoryDTO
 import com.example.github.repositories.features.detail.DetailFragment
 
 class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback {

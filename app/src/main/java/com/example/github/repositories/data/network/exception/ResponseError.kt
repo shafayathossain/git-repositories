@@ -1,4 +1,4 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network.exception
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,12 +1,10 @@
 package com.example.github.repositories
 
 import com.example.github.repositories.base.BaseViewModel
-import com.example.github.repositories.data.OwnerDTO
-import com.example.github.repositories.data.RepositoryDTO
-import com.example.github.repositories.data.UserDTO
+import com.example.github.repositories.data.model.OwnerDTO
+import com.example.github.repositories.data.model.RepositoryDTO
 import junit.framework.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import kotlin.math.min
 import kotlin.random.Random

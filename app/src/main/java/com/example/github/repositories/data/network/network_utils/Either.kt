@@ -1,4 +1,4 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network.network_utils
 
 /**
  * Represents a value of one of two possible types (a disjoint union).

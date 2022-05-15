@@ -1,4 +1,6 @@
-package com.example.github.repositories.data
+package com.example.github.repositories.data.network.exception
+
+import com.example.github.repositories.data.network.exception.Failure
 
 object NoInternetConnectionError : Failure("No internet connection found")
 

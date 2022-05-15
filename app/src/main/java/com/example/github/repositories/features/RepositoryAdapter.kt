@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.repositories.R
-import com.example.github.repositories.data.LocalDataStore
-import com.example.github.repositories.data.RepositoryDTO
+import com.example.github.repositories.data.local.LocalDataStore
+import com.example.github.repositories.data.model.RepositoryDTO
 
 class RepositoryAdapter(
     val list: List<RepositoryDTO>,
