@@ -12,7 +12,7 @@ open class BaseViewModel : ViewModel() {
 
     protected val dataSource = GithubDataSource()
     val message = SingleLiveEvent<String>()
-    val showLoader = MutableLiveData<Boolean>()
+    val showLoader: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
 
     fun getRepositoriesForUi(items: List<RepositoryDTO>): List<RepositoryDTO> {
         val mItems = populateRepositoryList(items)
