@@ -40,12 +40,28 @@ class UserFragment : BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelProviderFactor).get(UserViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, viewModelProviderFactor)[UserViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setViewObjects(view)
+        setObserver()
+        viewModel.fetchUser(user?.login)
+    }
+
+    override fun onItemClick(item: RepositoryDTO) {
+        val bundle = Bundle()
+        bundle.putParcelable(DetailFragment.DETAIL_DATA_TAG, item)
+        val fragment = DetailFragment()
+        fragment.arguments = bundle
+
+        replaceFragment(fragment)
+    }
+
+    private fun setViewObjects(view: View) {
         user = arguments?.getParcelable(USER_DATA_TAG)
         title = view.findViewById(R.id.title)
         image = view.findViewById(R.id.image)
@@ -56,7 +72,9 @@ class UserFragment : BaseFragment(),
 
         title?.text = user?.login
         Picasso.get().load(user?.avatar_url?.toUri()).into(image)
-        viewModel.fetchUser(user?.login)
+    }
+
+    private fun setObserver() {
         viewModel.message.observe(viewLifecycleOwner) {
             showMessage(it)
         }
@@ -68,25 +86,15 @@ class UserFragment : BaseFragment(),
             }
         }
         viewModel.user.observeForever {
-            if(it.twitter_username.isNullOrEmpty()) {
+            if (it.twitter_username.isNullOrEmpty()) {
                 detail?.visibility = View.INVISIBLE
             } else {
-                detail?.text = "Twitter handle: " + it.twitter_username
+                detail?.text = getString(R.string.twitter_handle_text, it.twitter_username)
             }
             viewModel.fetchRepositories(it.repos_url!!)
         }
         viewModel.repositories.observeForever {
             list?.adapter = RepositoryAdapter(it.toMutableList(), this)
         }
-
-    }
-
-    override fun onItemClick(item: RepositoryDTO) {
-        val bundle = Bundle()
-        bundle.putParcelable(DetailFragment.DETAIL_DATA_TAG, item)
-        val fragment = DetailFragment()
-        fragment.arguments = bundle
-
-        replaceFragment(fragment)
     }
 }

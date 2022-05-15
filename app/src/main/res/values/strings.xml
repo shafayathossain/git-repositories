@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Git Repositories</string>
+    <string name="twitter_handle_text">Twitter handle: %s</string>
 </resources>

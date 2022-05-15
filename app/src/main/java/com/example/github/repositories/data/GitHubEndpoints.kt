@@ -15,9 +15,9 @@ interface GitHubEndpoints {
     ): Response
 
     @GET("users/{username}")
-    fun getUser(
+    suspend fun getUser(
         @Path("username") username: String
-    ): Call<UserDTO>
+    ): UserDTO
 
     @GET
     suspend fun getUserRepositories(

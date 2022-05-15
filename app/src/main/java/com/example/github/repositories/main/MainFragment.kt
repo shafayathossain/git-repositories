@@ -48,6 +48,10 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
 
         loader = view.findViewById(R.id.loader)
 
+        setObservers()
+    }
+
+    private fun setObservers() {
         viewModel.message.observe(viewLifecycleOwner) {
             showMessage(it)
         }
@@ -59,9 +63,14 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
             }
         }
         viewModel.repositories.observe(viewLifecycleOwner) {
-            val adapter = RepositoryAdapter(it, this)
-            recyclerview?.adapter = adapter
+            loadItemsIntoRecyclerView(it)
         }
+    }
+
+    private fun loadItemsIntoRecyclerView(it: List<RepositoryDTO>) {
+        swipeRefresh?.isRefreshing = false
+        val adapter = RepositoryAdapter(it, this)
+        recyclerview?.adapter = adapter
     }
 
     override fun onItemClick(item: RepositoryDTO) {

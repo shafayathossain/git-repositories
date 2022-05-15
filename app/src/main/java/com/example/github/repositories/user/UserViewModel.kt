@@ -30,12 +30,17 @@ class UserViewModel : BaseViewModel() {
     val repositories = MutableLiveData<List<RepositoryDTO>>()
 
     fun fetchUser(username: String?) {
-
         viewModelScope.launch(Dispatchers.IO) {
             username?.let {
                 delay(1_000) // This is to simulate network latency, please don't remove!
-                val response = service.getUser(username).execute()
-                user.postValue(response.body()!!)
+                executeRetrofitCall(
+                    ioDispatcher = Dispatchers.IO,
+                    retrofitCall = {
+                        service.getUser(username)
+                    }
+                ).let { response ->
+                    response.mapSuccess { responseItems -> responseItems }
+                }.either(::handleError, ::setUserDto)
             }
         }
     }
@@ -58,6 +63,10 @@ class UserViewModel : BaseViewModel() {
 
     private fun handleError(failure: Failure) {
         message.postValue(failure.message)
+    }
+
+    fun setUserDto(userDto: UserDTO) {
+        user.postValue(userDto)
     }
 
     fun setRepositories(items: List<RepositoryDTO>) {
