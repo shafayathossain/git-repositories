@@ -1,6 +1,5 @@
 package com.example.github.repositories
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,21 +26,20 @@ class RepositoryAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val container: View = itemView.findViewById(R.id.news_container)
-        val titleTxt: TextView = itemView.findViewById(R.id.title)
-        val imageVw: ImageView = itemView.findViewById(R.id.iv_bookmark)
-        val descriptionTxt: TextView = itemView.findViewById(R.id.description)
-        val authorTxt: TextView = itemView.findViewById(R.id.author)
+        private val container: View = itemView.findViewById(R.id.news_container)
+        private val titleTxt: TextView = itemView.findViewById(R.id.title)
+        private val imageVw: ImageView = itemView.findViewById(R.id.iv_bookmark)
+        private val descriptionTxt: TextView = itemView.findViewById(R.id.description)
+        private val authorTxt: TextView = itemView.findViewById(R.id.author)
 
-        @SuppressLint("SetTextI18n")
         fun bindData() {
             val item = list[adapterPosition]
             titleTxt.text = item.name_in_list
             descriptionTxt.text =
-                if (item.description?.isNotBlank() == true && item.description!!.length > 150) item.description?.take(
-                    150
-                )
-                    .plus("...") else item.description
+                if (item.description?.isNotBlank() == true && item.description!!.length > 150)
+                    item.description?.take(150).plus("...")
+                else
+                    item.description
             authorTxt.text = item.owner.login
             imageVw.setImageResource(
                 if (LocalDataStore.instance.getBookmarks().contains(item.id))

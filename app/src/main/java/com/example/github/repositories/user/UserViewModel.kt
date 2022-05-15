@@ -13,13 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class UserViewModel : BaseViewModel() {
-
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return UserViewModel() as T
-        }
-    }
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(GITHUB_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -65,12 +58,18 @@ class UserViewModel : BaseViewModel() {
         message.postValue(failure.message)
     }
 
-    fun setUserDto(userDto: UserDTO) {
+    private fun setUserDto(userDto: UserDTO) {
         user.postValue(userDto)
     }
 
-    fun setRepositories(items: List<RepositoryDTO>) {
+    private fun setRepositories(items: List<RepositoryDTO>) {
         val itemsFoUi = getRepositoriesForUi(items)
         repositories.postValue(itemsFoUi)
+    }
+
+    class Factory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return UserViewModel() as T
+        }
     }
 }
