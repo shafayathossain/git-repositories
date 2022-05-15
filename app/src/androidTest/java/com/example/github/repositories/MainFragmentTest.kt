@@ -8,11 +8,8 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.filters.LargeTest
 import androidx.test.filters.MediumTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
-import com.example.github.repositories.base.SingleLiveEvent
 import com.example.github.repositories.data.local.LocalDataStore
 import com.example.github.repositories.data.model.RepositoryDTO
 import com.example.github.repositories.features.MainActivity
@@ -24,7 +21,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.spy
-import java.lang.Thread.sleep
 
 @MediumTest
 @RunWith(AndroidJUnit4ClassRunner::class)
@@ -43,13 +39,9 @@ class MainFragmentTest {
     @Before
     fun before() {
         viewModel = spy(MainViewModel())
-        testRepositoryLiveData = MutableLiveData(viewModel.getRepositoriesForUi(testResponse.items))
+        viewModel.showLoader.postValue(false)
+        viewModel.repositories.postValue(viewModel.getRepositoriesForUi(testResponse.items))
         `when`(viewModel.fetchItems()).then {}
-        `when`(viewModel.repositories).thenReturn(testRepositoryLiveData)
-
-        runOnUiThread {
-            sleep(1000)
-        }
         mActivityTestRule.scenario.onActivity {
             it.replaceFragment(MainFragment().apply {
                 viewModelProvider = createFor(this@MainFragmentTest.viewModel)
@@ -70,7 +62,6 @@ class MainFragmentTest {
         for (i in repositories.indices) {
             onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.title))
                 .check(matches(withText(viewModel.getItemNameForList(i, repositories[i]))))
-
         }
     }
 
@@ -86,7 +77,7 @@ class MainFragmentTest {
             onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.description))
                 .check(matches(isTextLength(expectedDescriptionLength)))
 
-            if(expectedDescriptionLength == 153) {
+            if (expectedDescriptionLength == 153) {
                 onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.description))
                     .check(matches(isTextSuffix("...")))
             }
@@ -110,12 +101,14 @@ class MainFragmentTest {
     @Test
     fun testIfMarkedAsBookmarkProperly() {
         val repositories = viewModel.repositories.getOrAwaitValue()
-        for(i in 0 until repositories.size * 2) {
+        for (i in 0 until repositories.size * 2) {
             val itemIndex = i / 2
             val item = repositories[itemIndex]
             checkIfBookmarkDrawableCorrect(item, itemIndex)
-            onView(RecyclerViewMatcher(R.id.news_list)
-                .atPositionOnView(itemIndex, R.id.title))
+            onView(
+                RecyclerViewMatcher(R.id.news_list)
+                    .atPositionOnView(itemIndex, R.id.title)
+            )
                 .perform(click())
             onView(withId(R.id.iv_bookmark)).perform(click())
             pressBack()
@@ -133,7 +126,7 @@ class MainFragmentTest {
     }
 
     private fun getDrawableIdForBookmarkStatus(isBookmarked: Boolean): Int {
-        return if(isBookmarked) R.drawable.baseline_bookmark_black_24
+        return if (isBookmarked) R.drawable.baseline_bookmark_black_24
         else R.drawable.baseline_bookmark_border_black_24
     }
 

@@ -16,7 +16,6 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
 
-
 fun childAtPosition(
     parentMatcher: Matcher<View>, position: Int
 ): Matcher<View> {
