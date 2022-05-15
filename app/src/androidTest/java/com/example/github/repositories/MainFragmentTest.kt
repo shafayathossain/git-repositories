@@ -4,6 +4,8 @@ import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -81,7 +83,20 @@ class MainFragmentTest {
                 onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.description))
                     .check(matches(isTextSuffix("...")))
             }
+        }
+    }
 
+    @Test
+    fun testNavigationBetweenMainAndDetailFragmentWorksProperly() {
+        val repositories = viewModel.repositories.getOrAwaitValue()
+        for (i in 0 until repositories.size) {
+            val item = repositories[i]
+            onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.title))
+                .perform(click())
+            onView(withId(R.id.detail_fragment_parent)).check(matches(isDisplayed()))
+            onView(withId(R.id.title)).check(matches(withText(item.name)))
+            pressBack()
+            onView(withId(R.id.news_list)).check(matches(isDisplayed()))
         }
     }
 }
