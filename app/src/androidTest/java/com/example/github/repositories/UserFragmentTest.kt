@@ -49,7 +49,7 @@ class UserFragmentTest {
     @Test
     @UiThreadTest
     fun testUserDataLoadedProperly() {
-        val user = viewModel.user.getOrAwaitValue()
+        val user = viewModel.user.getOrAwaitValue(4)
         val repositories = viewModel.repositories.getOrAwaitValue()
         assert(user.login == repository.owner.login)
         assert(user.id.toInt() == repository.owner.id)

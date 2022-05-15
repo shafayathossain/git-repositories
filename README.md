@@ -41,7 +41,7 @@ There are bugs that need to be fixed in the project:
 We want to test different components to make sure they are working properly:
 - Explain what should be tested in each components
 - Add test cases to confirm the followings requirements (Testing method is up to the developer):
-  - Title is shown properly in list
+  - :white_check_mark: Title is shown properly in list
   - Description is truncated properly in the list
   - Navigation is handled properly between screens
   - All the necessary information are fetched properly in the user screen
