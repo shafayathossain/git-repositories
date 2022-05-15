@@ -40,7 +40,7 @@ class MainFragmentTest {
     @Before
     fun before() {
         viewModel = spy(MainViewModel())
-        testRepositoryLiveData = MutableLiveData(viewModel.getRepositoriesForUi(testResponse).items)
+        testRepositoryLiveData = MutableLiveData(viewModel.getRepositoriesForUi(testResponse.items))
         `when`(viewModel.fetchItems()).then {}
         `when`(viewModel.repositories).thenReturn(testRepositoryLiveData)
 

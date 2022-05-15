@@ -24,14 +24,17 @@ class MainViewModel : BaseViewModel() {
 
     fun fetchItems() {
         viewModelScope.launch(Dispatchers.IO) {
+            showLoader.postValue(true)
             delay(1_000) // This is to simulate network latency, please don't remove!
             executeRetrofitCall(
                 ioDispatcher = Dispatchers.IO,
                 retrofitCall = {
                     service.searchRepositories(QUERY, SORT, ORDER)
                 }
-            ).let { response -> response.mapSuccess { responseItems -> responseItems } }
-                .either(::handleError, ::setRepositories)
+            ).let { response ->
+                showLoader.postValue(false)
+                response.mapSuccess { responseItems -> responseItems }
+            }.either(::handleError, ::setRepositories)
         }
     }
 
@@ -46,16 +49,17 @@ class MainViewModel : BaseViewModel() {
     }
 
     fun setRepositories(response: Response) {
-        val mResponse = getRepositoriesForUi(response)
-        repositories.postValue(populateRepositoryList(mResponse.items))
+        val itemsFoUi = getRepositoriesForUi(response.items)
+        repositories.postValue(itemsFoUi)
     }
 
-    fun getRepositoriesForUi(response: Response): Response {
-        for (i in 0 until response.items.size) {
-            val item = response.items[i]
+    fun getRepositoriesForUi(items: List<RepositoryDTO>): List<RepositoryDTO> {
+        val mItems = populateRepositoryList(items)
+        for (i in mItems.indices) {
+            val item = mItems[i]
             item.name_in_list = getItemNameForList(i, item)
         }
-        return response
+        return mItems
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

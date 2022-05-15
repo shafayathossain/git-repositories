@@ -2,6 +2,7 @@ package com.example.github.repositories.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
 
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var recyclerview: RecyclerView? = null
+    private var loader: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +46,17 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
         recyclerview = view.findViewById(R.id.news_list)
         recyclerview?.layoutManager = LinearLayoutManager(context)
 
+        loader = view.findViewById(R.id.loader)
+
         viewModel.message.observe(viewLifecycleOwner) {
             showMessage(it)
+        }
+        viewModel.showLoader.observe(viewLifecycleOwner) {
+            if (it == true) {
+                loader?.visibility = View.VISIBLE
+            } else {
+                loader?.visibility = View.GONE
+            }
         }
         viewModel.repositories.observe(viewLifecycleOwner) {
             val adapter = RepositoryAdapter(it, this)
