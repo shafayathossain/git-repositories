@@ -48,7 +48,7 @@ class MainFragment : BaseFragment(), RepositoryAdapter.RepositoryAdapterCallback
             showMessage(it)
         }
         viewModel.repositories.observe(viewLifecycleOwner) {
-            val adapter = RepositoryAdapter(it.take(20)?.toMutableList(), this)
+            val adapter = RepositoryAdapter(it, this)
             recyclerview?.adapter = adapter
         }
     }

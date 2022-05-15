@@ -55,7 +55,7 @@ class MainFragmentTest {
     fun testRecyclerViewItemCountIsCorrect() {
         val repositories = viewModel.repositories.getOrAwaitValue()
         onView(withId(R.id.news_list))
-            .check(matches(hasChildCount(repositories.size)))
+            .check(RecyclerViewItemCountAssertion.withItemCount(repositories.size))
     }
 
     @Test

@@ -23,7 +23,6 @@ class UserFragment : BaseFragment(),
     }
 
     private lateinit var viewModel: UserViewModel
-
     private var title: TextView? = null
     private var image: ImageView? = null
     private var detail: TextView? = null
@@ -31,13 +30,15 @@ class UserFragment : BaseFragment(),
     private var list: RecyclerView? = null
     private var user: OwnerDTO? = null
 
+    var viewModelProviderFactor: ViewModelProvider.Factory = UserViewModel.Factory()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_user
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, UserViewModel.Factory()).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelProviderFactor).get(UserViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +53,6 @@ class UserFragment : BaseFragment(),
 
         title?.text = user?.login
         Picasso.get().load(user?.avatar_url?.toUri()).into(image)
-
         viewModel.fetchUser(user?.login)
         viewModel.user.observeForever {
             if(it.twitter_username.isNullOrEmpty()) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.github.repositories.base.BaseViewModel
 import com.example.github.repositories.data.GITHUB_URL
 import com.example.github.repositories.data.GitHubEndpoints
 import com.example.github.repositories.data.RepositoryDTO
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class UserViewModel : ViewModel() {
+class UserViewModel : BaseViewModel() {
 
     class Factory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -46,7 +47,7 @@ class UserViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             delay(1_000) // This is to simulate network latency, please don't remove!
             val response = service.getUserRepositories(reposUrl).execute()
-            repositories.postValue(response.body()!!)
+            repositories.postValue(populateRepositoryList(response.body()))
         }
     }
 }

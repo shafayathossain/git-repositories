@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.github.repositories.base.SingleLiveEvent
+import com.example.github.repositories.base.BaseViewModel
 import com.example.github.repositories.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainViewModel : ViewModel() {
+class MainViewModel : BaseViewModel() {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(GITHUB_URL)
@@ -21,7 +21,6 @@ class MainViewModel : ViewModel() {
         .build()
     private val service: GitHubEndpoints = retrofit.create(GitHubEndpoints::class.java)
     val repositories = MutableLiveData<List<RepositoryDTO>>()
-    val message = SingleLiveEvent<String>()
 
     fun fetchItems() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -48,7 +47,7 @@ class MainViewModel : ViewModel() {
 
     fun setRepositories(response: Response) {
         val mResponse = getRepositoriesForUi(response)
-        repositories.postValue(mResponse.items)
+        repositories.postValue(populateRepositoryList(mResponse.items))
     }
 
     fun getRepositoriesForUi(response: Response): Response {
