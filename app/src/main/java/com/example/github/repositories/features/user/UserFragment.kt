@@ -71,14 +71,14 @@ class UserFragment : BaseFragment(),
         loader = view.findViewById(R.id.loader)
 
         title?.text = user?.login
-        Picasso.get().load(user?.avatar_url?.toUri()).into(image)
+        Picasso.get().load(user?.avatarUrl?.toUri()).into(image)
     }
 
     private fun setObserver() {
         viewModel.message.observe(viewLifecycleOwner) {
             showMessage(it)
         }
-        viewModel.showLoader.observe(viewLifecycleOwner) {
+        viewModel.showLoader?.observe(viewLifecycleOwner) {
             if (it == true) {
                 loader?.visibility = View.VISIBLE
             } else {
@@ -86,12 +86,12 @@ class UserFragment : BaseFragment(),
             }
         }
         viewModel.user.observeForever {
-            if (it.twitter_username.isNullOrEmpty()) {
+            if (it.twitterUsername.isNullOrEmpty()) {
                 detail?.visibility = View.INVISIBLE
             } else {
-                detail?.text = getString(R.string.twitter_handle_text, it.twitter_username)
+                detail?.text = getString(R.string.twitter_handle_text, it.twitterUsername)
             }
-            viewModel.fetchRepositories(it.repos_url!!)
+            viewModel.fetchRepositories(it.reposUrl!!)
         }
         viewModel.repositories.observeForever {
             list?.adapter = RepositoryAdapter(it.toMutableList(), this)

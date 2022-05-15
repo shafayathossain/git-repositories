@@ -35,7 +35,7 @@ class RepositoryAdapter(
 
         fun bindData() {
             val item = list[adapterPosition]
-            titleTxt.text = item.name_in_list
+            titleTxt.text = item.nameInList
             descriptionTxt.text =
                 if (item.description?.isNotBlank() == true && item.description!!.length > 150)
                     item.description?.take(150).plus("...")

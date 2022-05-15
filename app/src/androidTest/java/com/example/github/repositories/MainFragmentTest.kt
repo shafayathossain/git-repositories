@@ -9,7 +9,10 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.filters.LargeTest
+import androidx.test.filters.MediumTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
+import com.example.github.repositories.base.SingleLiveEvent
 import com.example.github.repositories.data.local.LocalDataStore
 import com.example.github.repositories.data.model.RepositoryDTO
 import com.example.github.repositories.features.MainActivity
@@ -21,8 +24,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.spy
+import java.lang.Thread.sleep
 
-@LargeTest
+@MediumTest
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainFragmentTest {
 
@@ -43,6 +47,9 @@ class MainFragmentTest {
         `when`(viewModel.fetchItems()).then {}
         `when`(viewModel.repositories).thenReturn(testRepositoryLiveData)
 
+        runOnUiThread {
+            sleep(1000)
+        }
         mActivityTestRule.scenario.onActivity {
             it.replaceFragment(MainFragment().apply {
                 viewModelProvider = createFor(this@MainFragmentTest.viewModel)

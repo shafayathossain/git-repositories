@@ -57,11 +57,11 @@ class DetailFragment : BaseFragment() {
             detail?.text = getString(
                 R.string.repository_creation_date_text,
                 it.owner.login,
-                it.created_at
+                it.createdAt
             )
-            Picasso.get().load(it.owner.avatar_url).into(image)
+            Picasso.get().load(it.owner.avatarUrl).into(image)
             description?.text = it.description
-            url?.text = it.html_url
+            url?.text = it.htmlUrl
 
             image?.setImageResource(
                 if (viewModel.getIsBookmarked(it.id))
