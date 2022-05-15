@@ -33,14 +33,23 @@ class DetailFragment : BaseFragment() {
 
         repository = arguments?.getParcelable(DETAIL_DATA_TAG)
 
-        title = view.findViewById(R.id.title)
-        image = view.findViewById(R.id.iv_bookmark)
-        detail = view.findViewById(R.id.detail)
-        description = view.findViewById(R.id.description)
-        url = view.findViewById(R.id.url)
+        setViewObjects(view)
+        loadDataIntoView()
+        image?.setOnClickListener {
+            toggleBookmarkState()
+        }
+        detail!!.setOnClickListener {
+            navigateToUserFragment()
+        }
+    }
 
+    private fun loadDataIntoView() {
         title?.text = repository?.name
-        detail?.text = "Created by " + repository?.owner!!.login + ", at " + repository?.created_at
+        detail?.text = getString(
+            R.string.repository_creation_date_text,
+            repository?.owner!!.login,
+            repository?.created_at
+        )
         Picasso.get().load(repository?.owner!!.avatar_url).into(image)
         description?.text = repository?.description
         url?.text = repository?.html_url
@@ -51,12 +60,14 @@ class DetailFragment : BaseFragment() {
             else
                 R.drawable.baseline_bookmark_border_black_24
         )
-        image?.setOnClickListener {
-            toggleBookmarkState()
-        }
-        detail!!.setOnClickListener {
-            navigateToUserFragment()
-        }
+    }
+
+    private fun setViewObjects(view: View) {
+        title = view.findViewById(R.id.title)
+        image = view.findViewById(R.id.iv_bookmark)
+        detail = view.findViewById(R.id.detail)
+        description = view.findViewById(R.id.description)
+        url = view.findViewById(R.id.url)
     }
 
     private fun navigateToUserFragment() {

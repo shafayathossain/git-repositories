@@ -10,8 +10,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Gets boolean data.
-     *
-     * @param context the context
      * @param key     the key
      * @return the boolean data
      */
@@ -22,8 +20,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Gets int data.
-     *
-     * @param context the context
      * @param key     the key
      * @return the int data
      */
@@ -33,8 +29,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Gets string data.
-     *
-     * @param context the context
      * @param key     the key
      * @return the string data
      */
@@ -45,8 +39,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Save data.
-     *
-     * @param context the context
      * @param key     the key
      * @param val     the val
      */
@@ -58,8 +50,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Save data.
-     *
-     * @param context the context
      * @param key     the key
      * @param val     the val
      */
@@ -70,8 +60,6 @@ class SharedPrefUtils constructor(private val preferences: SharedPreferences) {
 
     /**
      * Save data.
-     *
-     * @param context the context
      * @param key     the key
      * @param val     the val
      */
