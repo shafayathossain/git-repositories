@@ -1,8 +1,10 @@
 package com.example.github.repositories
 
+import android.widget.TextView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -47,6 +49,13 @@ class MainFragmentTest {
     }
 
     @Test
+    fun testRecyclerViewItemCountIsCorrect() {
+        val repositories = viewModel.repositories.getOrAwaitValue()
+        onView(withId(R.id.news_list))
+            .check(matches(hasChildCount(repositories.size)))
+    }
+
+    @Test
     fun titlesInTheListIsCorrect() {
         val repositories = viewModel.repositories.getOrAwaitValue()
         for (i in 0 until repositories.size) {
@@ -57,9 +66,22 @@ class MainFragmentTest {
     }
 
     @Test
-    fun testRecyclerViewItemCountIsCorrect() {
+    fun testIfDescriptionInTheListTruncatedProperly() {
         val repositories = viewModel.repositories.getOrAwaitValue()
-        onView(withId(R.id.news_list))
-            .check(matches(hasChildCount(repositories.size)))
+        for (i in 0 until repositories.size) {
+            val item = repositories[i]
+            val expectedDescriptionLength =
+                if (!item.description.isNullOrEmpty() && item.description!!.length > 150) 153
+                else (item.description?.length ?: 0)
+
+            onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.description))
+                .check(matches(isTextLength(expectedDescriptionLength)))
+
+            if(expectedDescriptionLength == 153) {
+                onView(RecyclerViewMatcher(R.id.news_list).atPositionOnView(i, R.id.description))
+                    .check(matches(isTextSuffix("...")))
+            }
+
+        }
     }
 }

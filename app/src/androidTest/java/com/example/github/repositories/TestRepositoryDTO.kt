@@ -144,7 +144,7 @@ private val testResponseString = "{\n" +
         "        \"site_admin\": false\n" +
         "      },\n" +
         "      \"html_url\": \"https://github.com/android/architecture-samples\",\n" +
-        "      \"description\": \"A collection of samples to discuss and showcase different architectural tools and patterns for Android apps.\",\n" +
+        "      \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris quis efficitur quam. Pellentesque elementum pretium tortor, et placerat dolor varius nec. Etiam viverra, sem ut convallis congue, magna dui blandit eros, quis molestie lorem ex et enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla varius tincidunt justo quis cursus. Donec finibus diam a arcu pellentesque tempus. Proin accumsan scelerisque purus, eget vulputate ipsum tempor ac.\",\n" +
         "      \"fork\": false,\n" +
         "      \"url\": \"https://api.github.com/repos/android/architecture-samples\",\n" +
         "      \"forks_url\": \"https://api.github.com/repos/android/architecture-samples/forks\",\n" +
