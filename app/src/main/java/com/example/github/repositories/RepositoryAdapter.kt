@@ -26,7 +26,7 @@ class RepositoryAdapter(
         holder.bindData()
     }
 
-    inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val container: View = itemView.findViewById(R.id.news_container)
         val titleTxt: TextView = itemView.findViewById(R.id.title)
         val imageVw: ImageView = itemView.findViewById(R.id.image)
@@ -36,13 +36,13 @@ class RepositoryAdapter(
         @SuppressLint("SetTextI18n")
         fun bindData() {
             val item = list[adapterPosition]
-            titleTxt.text = "#" + (position + 1) + ": " + item.full_name!!.toUpperCase()
+            titleTxt.text = item.name_in_list
             descriptionTxt.text =
                 if (item.description?.isNotBlank() == true && item.description!!.length > 150) item.description?.take(
                     150
                 )
                     .plus("...") else item.description
-            authorTxt.text = item.owner!!.login
+            authorTxt.text = item.owner.login
             imageVw.setImageResource(
                 if (LocalDataStore.instance.getBookmarks().contains(item.id))
                     R.drawable.baseline_bookmark_black_24

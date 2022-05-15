@@ -47,6 +47,7 @@ data class RepositoryDTO(
     var node_id: String?,
     var name: String,
     var full_name: String?,
+    var name_in_list: String?,
     var private: Boolean?,
     var owner: OwnerDTO,
     var html_url: String?,

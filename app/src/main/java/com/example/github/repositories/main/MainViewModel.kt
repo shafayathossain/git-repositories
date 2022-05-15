@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@VisibleForTesting
 class MainViewModel : ViewModel() {
 
     private val retrofit = Retrofit.Builder()
@@ -21,7 +20,6 @@ class MainViewModel : ViewModel() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val service: GitHubEndpoints = retrofit.create(GitHubEndpoints::class.java)
-
     val repositories = MutableLiveData<List<RepositoryDTO>>()
     val message = SingleLiveEvent<String>()
 
@@ -34,7 +32,7 @@ class MainViewModel : ViewModel() {
                     service.searchRepositories(QUERY, SORT, ORDER)
                 }
             ).let { response -> response.mapSuccess { responseItems -> responseItems } }
-                .either(::handleError, ::handleSuccess)
+                .either(::handleError, ::setRepositories)
         }
     }
 
@@ -48,8 +46,22 @@ class MainViewModel : ViewModel() {
         message.postValue(failure.message)
     }
 
-    private fun handleSuccess(response: Response) {
-        repositories.postValue(response?.items)
+    fun setRepositories(response: Response) {
+        val mResponse = getRepositoriesForUi(response)
+        repositories.postValue(mResponse.items)
+    }
+
+    fun getRepositoriesForUi(response: Response): Response {
+        for (i in 0 until response.items.size) {
+            val item = response.items[i]
+            item.name_in_list = getItemNameForList(i, item)
+        }
+        return response
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getItemNameForList(position: Int, item: RepositoryDTO): String {
+        return "#" + (position + 1) + ": " + item.full_name?.uppercase()
     }
 
     class Factory : ViewModelProvider.Factory {
